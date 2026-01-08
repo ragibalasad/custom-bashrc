@@ -47,7 +47,7 @@ function git_branch() {
 # Set the prompt.
 
 function bash_prompt(){
-    PS1=${pur}'┌──(\u@\h)'${grn}' [\w] ''${debian_chroot:+($debian_chroot)}'${blu}'$(git_branch)'${pur}'\n└─\$ '${clr}
+    PS1=${grn}'┌──(\u@\h) ['${wht}'\w'${grn}'] ${debian_chroot:+($debian_chroot)}'${blu}'$(git_branch)\n'${grn}'└─\$ '${clr}
 }
 
 bash_prompt
