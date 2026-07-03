@@ -1,0 +1,71 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+if [ -d ~/.bashrc.d ]; then
+	for rc in ~/.bashrc.d/*; do
+		if [ -f "$rc" ]; then
+			. "$rc"
+		fi
+	done
+fi
+unset rc
+
+blk='\[\033[01;30m\]'   # Black
+red='\[\033[01;31m\]'   # Red
+grn='\[\033[01;32m\]'   # Green
+ylw='\[\033[01;33m\]'   # Yellow
+blu='\[\033[01;34m\]'   # Blue
+pur='\[\033[01;35m\]'   # Purple
+cyn='\[\033[01;36m\]'   # Cyan
+wht='\[\033[01;37m\]'   # White
+clr='\[\033[00m\]'      # Reset
+
+# Get the current Git branch name (empty if not in a repo)
+function git_branch() {
+    git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null
+}
+
+# Print a '*' if the working tree has uncommitted changes
+function git_dirty() {
+    local branch
+    branch=$(git_branch)
+    if ! git diff --quiet --ignore-submodules HEAD -- 2>/dev/null || \
+       [ -n "$(git status --porcelain 2>/dev/null)" ] && [ -n "$branch" ] ; then
+        printf '*'
+    fi
+}
+
+# Build the git segment: " branch" or nothing if not in a repo
+function git_segment() {
+    local branch
+    branch=$(git_branch)
+    if [ -n "$branch" ]; then
+        printf "%s%s" "$branch"
+    fi
+}
+
+# Set the prompt.
+function bash_prompt(){
+    PS1=${grn}'\u@\h '${cyn}'\w '${wht}'$(git_segment) '${ylw}'$(git_dirty)\n'${grn}'❯ '${clr}
+}
+bash_prompt
+
+export PATH="/opt/wine-stable/bin:$PATH"
+
+# opencode
+export PATH=/home/ragib/.opencode/bin:$PATH
