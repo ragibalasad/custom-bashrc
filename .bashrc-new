@@ -61,7 +61,7 @@ function git_segment() {
 
 # Set the prompt.
 function bash_prompt(){
-    PS1=${grn}'\u@\h '${cyn}'\w '${wht}'$(git_segment) '${ylw}'$(git_dirty)\n'${grn}'❯ '${clr}
+    PS1=${grn}'\u@\h '${cyn}'\w '${wht}'$(git_segment) '${ylw}'$(git_dirty)\n'${grn}'⤷ '${clr}
 }
 bash_prompt
 
